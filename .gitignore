@@ -1,0 +1,18 @@
+# بيانات سرية
+.env
+*.session
+*.session-journal
+
+# بيانات التشغيل المحلية
+channels.json
+signals.json
+signals.json.tmp
+settings.json
+halal_tokens.json
+halal_bot_cache.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
