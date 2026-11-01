@@ -3,12 +3,14 @@
 مع إظهار اسم القناة المصدر التي التُقطت منها التوصية.
 """
 from typing import Dict, Any
+from trade_analyzer import format_trade_analysis
 
 def generate_manual_trading_guide(
     signal: Dict[str, Any],
     halal_info: Dict[str, Any],
     current_price: float = None,
-    source_channel: str = "قناة التوصيات"
+    source_channel: str = "قناة التوصيات",
+    analysis: Dict[str, Any] = None,
 ) -> str:
     coin = signal["coin"]
     pair = signal["pair"]
@@ -21,6 +23,7 @@ def generate_manual_trading_guide(
     sl_str = str(sl) if sl else "غير محدد (يُنصح بوضعه يدوياً)"
 
     curr_price_str = f"⚡ السعر اللحظي في بينانس: `{current_price}`\n" if current_price else ""
+    analysis_str = f"{format_trade_analysis(analysis)}\n" if analysis else ""
 
     guide_message = f"""
 🔔 **توصية تداول جديدة (مباحة شرعياً)**
@@ -33,6 +36,7 @@ def generate_manual_trading_guide(
 🎯 **نطاق الدخول المقترح:** `{entry_str}`
 🏁 **الأهداف المقترحة:** `{targets_str}`
 🛑 **وقف الخسارة:** `{sl_str}`
+{analysis_str}
 ━━━━━━━━━━━━━━━━━━━━
 📌 **خطوات التنفيذ اليدوي في منصة بينانس (Binance App/Web):**
 

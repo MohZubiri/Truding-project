@@ -3,6 +3,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
+def _bool_env(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
 TG_API_ID = int(os.getenv("TG_API_ID", "0"))
 TG_API_HASH = os.getenv("TG_API_HASH", "")
 TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN", "")
@@ -17,6 +24,15 @@ WEB_HOST = os.getenv("WEB_HOST", "0.0.0.0")
 # كلمة مرور لوحة الويب (ضرورية عند الرفع على استضافة عامة)
 PANEL_USERNAME = os.getenv("PANEL_USERNAME", "admin")
 PANEL_PASSWORD = os.getenv("PANEL_PASSWORD", "")
+
+# مسح رسائل اليوم المجدول (الأوقات حسب APP_TIMEZONE)
+APP_TIMEZONE = os.getenv("APP_TIMEZONE", "Asia/Riyadh").strip() or "Asia/Riyadh"
+DAILY_SCAN_ENABLED = _bool_env("DAILY_SCAN_ENABLED", True)
+DAILY_SCAN_TIMES = [
+    value.strip()
+    for value in os.getenv("DAILY_SCAN_TIMES", "08:00,14:00,20:00").split(",")
+    if value.strip()
+]
 
 BINANCE_API_KEY = os.getenv("BINANCE_API_KEY", "")
 BINANCE_API_SECRET = os.getenv("BINANCE_API_SECRET", "")
@@ -37,7 +53,7 @@ HALAL_CACHE_DAYS = int(os.getenv("HALAL_CACHE_DAYS", "7"))
 HARAM_KEYWORDS = _csv_env(
     "HARAM_KEYWORDS",
     "غير مباح,غير مباحة,غير حلال,غير متوافق,غير متوافقة,غير جائز,محرم,محرمة,حرام,مشبوه,مشبوهة,"
-    "haram,not halal,non-compliant,not compliant,questionable"
+    "haram,not halal,not permitted,impermissible,prohibited,non-compliant,not compliant,questionable"
 )
 HALAL_KEYWORDS = _csv_env(
     "HALAL_KEYWORDS",

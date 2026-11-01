@@ -10,6 +10,8 @@ signals.json.tmp
 settings.json
 halal_tokens.json
 halal_bot_cache.json
+processed_messages.json
+processed_messages.json.tmp
 
 # Python
 __pycache__/
